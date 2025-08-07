@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h3>WebSocket Relay Test</h3>
+<button onclick="sendCommand('ON')">Turn ON Relay</button>
+<button onclick="sendCommand('OFF')">Turn OFF Relay</button>
+<pre id="log"></pre>
+
+<script>
+// const socket = new WebSocket('ws://your-server-ip:8081');
+const socket = new WebSocket('ws://103.115.255.11:80');
+const log = document.getElementById('log');
+
+socket.onopen = () => log.innerText += '✅ Connected to WebSocket\n';
+socket.onmessage = e => log.innerText += '📨 ' + e.data + '\n';
+socket.onerror = e => log.innerText += '❌ Error\n';
+
+function sendCommand(cmd) {
+  const message = JSON.stringify({ cmd });
+  socket.send(message);
+  log.innerText += '🚀 Sent: ' + message + '\n';
+}
+</script>
+</body>
+</html>
